@@ -20,29 +20,20 @@
 </table>
 <h2>Not classified</h2>
 <table>
-	{% for result in results[1]: %}
+	{% for result in results[1]: %} {% if not result[0] == "NOT CLASSIFIED"%}
 	<tr>
 		<td>{{result[0]}}</td>
 		<td>{{result[1]}}</td>
 		<td>{{result[4]}}</td>
 	</tr>
-
-	{% endfor %}
+	{% endif %} {% endfor %}
 </table>
 <h2>Fastest lap</h2>
 <table>
-	{% if results[2][0][1] == "OVERALL FASTEST LAP": %}
 	<tr>
-		<td>{{results[3][1][0]}}</td>
-		<td>{{results[3][1][1]}}</td>
-		<td>{{results[3][1][4]}}</td>
+		<td>{{ fastest_lap[1] }}</td>
+		<td>{{ fastest_lap[2] }}</td>
+		<td>{{ fastest_lap[3] }}</td>
 	</tr>
-	{% else: %}
-	<tr>
-		<td>{{results[3][0][0]}}</td>
-		<td>{{results[3][0][1]}}</td>
-		<td>{{results[3][0][4]}}</td>
-	</tr>
-	{% endif %}
 </table>
 {% endblock %}
