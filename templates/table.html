@@ -1,0 +1,22 @@
+{% extends "layout.html" %} {% block body %}
+
+<table>
+	<tr>
+		<td>position</td>
+		<td>driver number</td>
+		<td>driver name</td>
+		<td>team</td>
+		<td>points</td>
+	</tr>
+	{% for result in results: %}
+	<tr>
+		<td>{{result[0]}}</td>
+		<td>{{result[1]}}</td>
+		<td>{{result[2]}}</td>
+		<td>{{result[5]}}</td>
+		<td>{{result[13]}}</td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}
