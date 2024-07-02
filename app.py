@@ -19,8 +19,14 @@ def upload():
 
     with pdfplumber.open(filename) as pdf:
         page = pdf.pages[1];
-        data = page.extract_tables(table_settings={"snap_x_tolerance": 1})
-    results = []
-    for driver in data[0]:
-        results.append(driver)
-    return render_template("table.html", results=results)
+        results = page.extract_tables(table_settings={"snap_x_tolerance": 1})
+    fastest_index = 0
+    i = 0
+    for result in results[0]:
+        if result[11] < results[0][fastest_index][11]:
+            fastest_index = i
+        i += 1
+    
+    # return results
+    fastest_lap = results[0][fastest_index]
+    return render_template("table.html", results=results, fastest_lap=fastest_lap)
