@@ -1,14 +1,14 @@
 {% extends "layout.html" %} {% block body %}
-
+<h2>Results</h2>
 <table>
 	<tr>
-		<td>position</td>
-		<td>driver number</td>
-		<td>driver name</td>
-		<td>team</td>
-		<td>points</td>
+		<th>position</th>
+		<th>driver number</th>
+		<th>driver name</th>
+		<th>team</th>
+		<th>points</th>
 	</tr>
-	{% for result in results: %}
+	{% for result in results[0]: %}
 	<tr>
 		<td>{{result[0]}}</td>
 		<td>{{result[1]}}</td>
@@ -18,5 +18,31 @@
 	</tr>
 	{% endfor %}
 </table>
+<h2>Not classified</h2>
+<table>
+	{% for result in results[1]: %}
+	<tr>
+		<td>{{result[0]}}</td>
+		<td>{{result[1]}}</td>
+		<td>{{result[4]}}</td>
+	</tr>
 
+	{% endfor %}
+</table>
+<h2>Fastest lap</h2>
+<table>
+	{% if results[2][0][1] == "OVERALL FASTEST LAP": %}
+	<tr>
+		<td>{{results[3][1][0]}}</td>
+		<td>{{results[3][1][1]}}</td>
+		<td>{{results[3][1][4]}}</td>
+	</tr>
+	{% else: %}
+	<tr>
+		<td>{{results[3][0][0]}}</td>
+		<td>{{results[3][0][1]}}</td>
+		<td>{{results[3][0][4]}}</td>
+	</tr>
+	{% endif %}
+</table>
 {% endblock %}

@@ -19,8 +19,6 @@ def upload():
 
     with pdfplumber.open(filename) as pdf:
         page = pdf.pages[1];
-        data = page.extract_tables(table_settings={"snap_x_tolerance": 1})
-    results = []
-    for driver in data[0]:
-        results.append(driver)
+        results = page.extract_tables(table_settings={"snap_x_tolerance": 1})
+        # return results
     return render_template("table.html", results=results)
