@@ -23,10 +23,10 @@ def upload():
     fastest_index = 0
     i = 0
     for result in results[0]:
-        if result < results[0][fastest_index]:
+        if result[11] < results[0][fastest_index][11]:
             fastest_index = i
         i += 1
     
-    # return fastest_lap
+    # return results
     fastest_lap = results[0][fastest_index]
     return render_template("table.html", results=results, fastest_lap=fastest_lap)
