@@ -1,6 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from random import random
-import pdfplumber
+from helpers import getResults, saveDocument, getFastestLap
 
 
 app = Flask(__name__)
@@ -13,20 +12,8 @@ def index():
 
 @app.route("/upload", methods=["POST"])
 def upload():
-    file = request.files["file"]
-    filename = f"files/{random()}.pdf"
-    file.save(filename)
-
-    with pdfplumber.open(filename) as pdf:
-        page = pdf.pages[1];
-        results = page.extract_tables(table_settings={"snap_x_tolerance": 1})
-    fastest_index = 0
-    i = 0
-    for result in results[0]:
-        if result[11] < results[0][fastest_index][11]:
-            fastest_index = i
-        i += 1
+    document = saveDocument(request.files["file"])
+    results = getResults(document)
+    fastest_lap = getFastestLap(results)
     
-    # return results
-    fastest_lap = results[0][fastest_index]
-    return render_template("table.html", results=results, fastest_lap=fastest_lap)
+    return render_template("table.html", results=results, fastest_lap=results[0][fastest_lap])
