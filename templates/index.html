@@ -4,17 +4,23 @@
 	action="/upload"
 	method="post"
 	enctype="multipart/form-data">
-	<div
-		><label for="results">Upload results document</label
-		><input
+	<div><label for="event">Event</label>
+	<select name="event" id="event">
+		<option value="NULL" selected disabled> -- select event --</option>
+		{% for event in events: %}
+			<option value="{{event[0]}}">{{event[1]}}</option>
+		{% endfor %}
+	</select></div>
+		<label for="results">Upload results document</label>
+		<input
 			type="file"
 			placeholder="results"
 			name="results"
 			id="results"
 	/></div>
 	<div
-		><label for="drivers">Upload entry list</label
-		><input
+		><label for="drivers">Upload entry list</label>
+		<input
 			type="file"
 			name="drivers"
 			id="drivers"
