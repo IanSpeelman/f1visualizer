@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from helpers import getData, checkDriver, getEvents, createEvent, getTracks
+from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults
 
 
 app = Flask(__name__)
@@ -37,8 +37,15 @@ def upload():
         for i in range(len(data["drivers"])):
             if data["drivers"][i][0] != "" and data["drivers"][i][0] != "No.":
                 checkDriver(data["drivers"][i])
-        return render_template("confirm.html", results=data["results"])
+        event = {}
+        event["event"] = request.form.get("event")
+        event["session"] = request.form.get("session")
+        return render_template("confirm.html", results=data["results"], event=event)
     else:
         events = getEvents()
-        return render_template("index.html", events=events)
+        
+        return render_template("uploadresults.html", events=events)
 
+@app.route("/confirmed", methods=["POST"])
+def confirmed():
+    return uploadResults(request.form)

@@ -1,9 +1,17 @@
 {% extends "layout.html" %} {% block body %}
-
+<h1>{{event.event}}<span>{{event.session}}</span></h1>
 <form
-	action="/"
-	accept="post">
+	action="/confirmed"
+	method="post">
 	<table>
+		<input
+			type="hidden"
+			name="event"
+			value="{{event.event}}" />
+		<input
+			type="hidden"
+			name="session"
+			value="{{event.session}}" />
 		<tr>
 			<th>Position:</th>
 			<th>Driver Number:</th>
@@ -19,23 +27,84 @@
 			<th>Points:</th>
 		</tr>
 		{% for i in range(results|length)%}
-                
-            <tr>
-                    <td><input type="text" name="result[{{i}}][position]"value="{{results[i][0]}}"></td>
-                    <td><input type="text" name="result[{{i}}][driver_number]"value="{{results[i][1]}}"></td>
-                    <td><input type="text" name="result[{{i}}][driver]"value="{{results[i][2]}}"></td>
-                    <td><input type="text" name="result[{{i}}][team]"value="{{results[i][3]}}"></td>
-                    <td><input type="text" name="result[{{i}}][completed_laps]"value="{{results[i][4]}}"></td>
-                    <td><input type="text" name="result[{{i}}][time]"value="{{results[i][5]}}"></td>
-                    <td><input type="text" name="result[{{i}}][gap]"value="{{results[i][6]}}"></td>
-                    <td><input type="text" name="result[{{i}}][interval]"value="{{results[i][7]}}"></td>
-                    <td><input type="text" name="result[{{i}}][top_speed]"value="{{results[i][8]}}"></td>
-                    <td><input type="text" name="result[{{i}}][fl_time]"value="{{results[i][9]}}"></td>
-                    <td><input type="text" name="result[{{i}}][fl_number]"value="{{results[i][10]}}"></td>
-                    <td><input type="text" name="result[{{i}}][points]"value="{{results[i][11]}}"></td>
-            </tr>
+
+		<tr>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][position]"
+					value="{{results[i][0]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][driver_number]"
+					value="{{results[i][1]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][driver]"
+					value="{{results[i][2]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][team]"
+					value="{{results[i][3]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][completed_laps]"
+					value="{{results[i][4]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][time]"
+					value="{{results[i][5]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][gap]"
+					value="{{results[i][6]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][interval]"
+					value="{{results[i][7]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][top_speed]"
+					value="{{results[i][8]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][fl_time]"
+					value="{{results[i][9]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][fl_number]"
+					value="{{results[i][10]}}"
+			/></td>
+			<td
+				><input
+					type="text"
+					name="result[{{i}}][points]"
+					value="{{results[i][11]}}"
+			/></td>
+		</tr>
 		{% endfor %}
 	</table>
+	<button type="submit">Confirm</button>
 </form>
 
 {% endblock %}

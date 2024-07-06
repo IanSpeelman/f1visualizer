@@ -1,0 +1,40 @@
+{% extends "layout.html" %} {% block body %}
+
+<form
+	action="/upload"
+	method="post"
+	enctype="multipart/form-data">
+	<div><label for="event">Event</label>
+	<select name="event" id="event" autocomplete="off">
+		<option value="NULL" selected disabled> -- select event --</option>
+		{% for event in events: %}
+			<option value="{{event[0]}}">{{event[1]}}</option>
+		{% endfor %}
+	</select></div>
+	<div><label for="session">session: </label>
+	<select name="session" id="session" autocomplete="off">
+		<option disabled selected> -- Select session -- </option>
+		<option value="practice_1">Practice 1</option>
+		<option value="practice_2">Practice 2</option>
+		<option value="practice_3">Practice 3</option>
+		<option value="qualification">Qualification</option>
+		<option value="race">Race</option>
+	</select></div>
+		<label for="results">Upload results document</label>
+		<input
+			type="file"
+			placeholder="results"
+			name="results"
+			id="results"
+	/></div>
+	<div
+		><label for="drivers">Upload entry list</label>
+		<input
+			type="file"
+			name="drivers"
+			id="drivers"
+	/></div>
+	<button type="submit">upload</button>
+</form>
+
+{% endblock %}

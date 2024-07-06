@@ -124,3 +124,56 @@ def getTracks():
     tracks = cur.execute("SELECT id, name FROM tracks").fetchall()
     connection.close()
     return tracks
+
+def uploadResults(data):
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    query = """INSERT INTO results (
+    driver_id,
+    team_id,
+    session_id,
+    position,
+    laps_completed,
+    total_race_time,
+    fastest_lap,
+    fastest_lap_number,
+    gap,
+    interval,
+    top_speed,
+    points,
+    endstatus
+    ) VALUES"""
+    try:
+        for i in range(26):
+            position = data[f"result[{i}][position]"]
+            driver_number= data[f"result[{i}][driver_number]"]
+            completed_laps = data[f"result[{i}][completed_laps]"]
+            time = data[f"result[{i}][time]"]
+            gap = data[f"result[{i}][gap]"]
+            interval = data[f"result[{i}][interval]"]
+            top_speed = data[f"result[{i}][top_speed]"]
+            fl_time = data[f"result[{i}][fl_time]"]
+            fl_number = data[f"result[{i}][fl_number]"]
+            points = data[f"result[{i}][points]"]
+            driver = data[f"result[{i}][driver]"].split(" ")
+            status = "finished" if data[f"result[{i}][gap]"] != "DNF" else "dnf"
+            event = data["event"]
+            session= data["session"]
+            print("before 1 db call")
+            result = cur.execute("SELECT id, team_id FROM drivers WHERE first_name = ? AND last_name = ? AND driver_number = ?",
+                                    (driver[0].capitalize(), driver[1].capitalize(), driver_number)).fetchone()
+            driver_id = result[0]
+            team_id = result[1]
+            print("before 2 db call")
+            result = cur.execute("SELECT id FROM sessions WHERE type = ? AND event_id = ?",(session.capitalize(), event)).fetchone()
+            print("after db calls")
+            print(result)
+            session_id = result[0]
+            query += f"""{",\n" if i > 0 else ""} ({driver_id},{team_id},{session_id},'{position}','{completed_laps}','{time}','{fl_time}','{fl_number}','{gap}','{interval}','{top_speed}','{points}','{status}')"""
+
+    except:
+        cur.execute(query)
+        connection.commit()
+        connection.close()
+        print(query)
+    return data
