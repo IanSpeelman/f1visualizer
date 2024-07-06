@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<form action="/createevent" method="post">
+    <div>
+        <div>
+            <label for="name">name:<label>
+            <input type="text" name="name" id="name" placeholder="Event name">
+        </div>
+        <div>
+            <label for="track">track: </label>
+            <select name="track" id="track" autocomplete="off">
+                <option  selected disabled> -- Select track -- </option>
+                {% for track in tracks: %}
+                <option value="{{track[0]}}">{{track[1]}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label for="sprint">sprint weekend?</label>
+            <input type="checkbox" name="sprint" id="sprint">
+        </div>
+    </div>
+    <p>Practice 1</p>
+    <div>
+        <label for="Practice_1">time/date: </label>
+        <input type="datetime-local" id="Practice_1" name="Practice_1">
+    </div>
+    <p>Practice 2</p>
+    <div>
+        <label for="Practice_2">time/date: </label>
+        <input type="datetime-local" id="Practice_2" name="Practice_2">
+    </div>
+    <p>Practice 3</p>
+    <div>
+        <label for="Practice_3">time/date: </label>
+        <input type="datetime-local" id="Practice_3" name="Practice_3">
+    </div>
+    <p>quali</p>
+    <div>
+        <label for="Qualification">time/date: </label>
+        <input type="datetime-local" id="Qualification" name="Qualification">
+    </div>
+    <p>Race</p>
+    <div>
+        <label for="Race">time/date: </label>
+        <input type="datetime-local" id="Race" name="Race">
+    </div>
+    <button type="submit">Add event</button>
+</form>
+
+{% endblock%}

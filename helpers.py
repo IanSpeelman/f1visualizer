@@ -3,6 +3,7 @@ import camelot
 import json
 import sqlite3
 import os.path
+import datetime
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 db_path = os.path.join(BASE_DIR, "f1visualizer.db")
@@ -14,10 +15,16 @@ def saveDocument(file):
     return filename
 
 # get information from the pdf, and sort/store it in a array
-def getData(file):
+def getData(file, page):
     filename = saveDocument(file)
-    results = camelot.read_pdf(filename, flavor='stream', pages='2')
-    results = results[0].df.to_json()
+    results = camelot.read_pdf(filename, flavor='stream', pages=page)
+    try:
+        meta = results[0].df.to_json()
+        results = results[1].df.to_json()
+        meta = json.loads(meta)
+    except:
+        meta = []
+        results = results[0].df.to_json()
     results = json.loads(results)
     fixed_results = []
     for i in range(len(results["0"])):
@@ -25,7 +32,7 @@ def getData(file):
         for j in range(len(results)):
             tmp.append(results[str(j)][str(i)])
         fixed_results.append(tmp)
-    return fixed_results
+    return [fixed_results, meta]
 
 # check if the driver exists in the database, if not add the driver to the database
 def checkDriver(driver):
@@ -68,3 +75,52 @@ def connectDriver(team_id, driver_id):
     connection.close()
     print(team_id, driver_id, result[4], result[5])
     return None
+
+def getEvents():
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    year = datetime.date.today().year
+    events = cur.execute("SELECT * FROM events WHERE year = ?", [year]).fetchall()
+    return events
+
+def createEvent(form):
+    form = form.to_dict()
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    id = 0
+    try:
+        year = form["Race"].split("-")[0]
+        id = cur.execute("INSERT INTO events (name, year, track_id) VALUES (?, ?, ?)", (form["name"], year, form["track"])).lastrowid
+        connection.commit()
+        connection.close()
+    except Exception as error:
+        print("create event", error)
+        return
+    for key in form:
+        try:
+            if form[key].split("T")[1] != None:
+                createSession(key, form[key], id)
+        except Exception as error:
+            print("create session",error)
+            pass
+
+def createSession(type, datetime, eventid):
+
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    date = datetime.split("T")[0]
+    time = datetime.split("T")[1]
+    try:
+        cur.execute("INSERT INTO sessions (type, time, date, event_id) VALUES (?, ?, ?, ?)", 
+                   (type, time, date, eventid))
+        connection.commit()
+        connection.close()
+    except:
+        pass
+
+def getTracks():
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    tracks = cur.execute("SELECT id, name FROM tracks").fetchall()
+    connection.close()
+    return tracks
