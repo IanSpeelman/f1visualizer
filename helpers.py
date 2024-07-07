@@ -158,22 +158,27 @@ def uploadResults(data):
             driver = data[f"result[{i}][driver]"].split(" ")
             status = "finished" if data[f"result[{i}][gap]"] != "DNF" else "dnf"
             event = data["event"]
-            session= data["session"]
-            print("before 1 db call")
+            session = data["session"]
             result = cur.execute("SELECT id, team_id FROM drivers WHERE first_name = ? AND last_name = ? AND driver_number = ?",
                                     (driver[0].capitalize(), driver[1].capitalize(), driver_number)).fetchone()
             driver_id = result[0]
             team_id = result[1]
-            print("before 2 db call")
-            result = cur.execute("SELECT id FROM sessions WHERE type = ? AND event_id = ?",(session.capitalize(), event)).fetchone()
-            print("after db calls")
-            print(result)
-            session_id = result[0]
+            session_id = data["session"]
             query += f"""{",\n" if i > 0 else ""} ({driver_id},{team_id},{session_id},'{position}','{completed_laps}','{time}','{fl_time}','{fl_number}','{gap}','{interval}','{top_speed}','{points}','{status}')"""
 
     except:
-        cur.execute(query)
-        connection.commit()
-        connection.close()
-        print(query)
+        pass
+    cur.execute(query)
+    connection.commit()
+    connection.close()
     return data
+
+def getSessions(event_id):
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    try:
+        sessions = cur.execute("""SELECT id, type FROM sessions WHERE event_id = ? AND id NOT IN (
+                               SELECT session_id FROM results)""", [event_id]).fetchall()
+    except:
+        return None
+    return sessions
