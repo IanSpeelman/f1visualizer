@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults
+from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults, getSessions
 
 
 app = Flask(__name__)
@@ -43,9 +43,14 @@ def upload():
         return render_template("confirm.html", results=data["results"], event=event)
     else:
         events = getEvents()
-        
         return render_template("uploadresults.html", events=events)
 
 @app.route("/confirmed", methods=["POST"])
 def confirmed():
-    return uploadResults(request.form)
+    uploadResults(request.form)
+    return redirect("/upload")
+
+@app.route("/sessions")
+def sessions():
+    session_id = request.args.get("event")
+    return getSessions(session_id)
