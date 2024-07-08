@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults, getSessions
+from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults, getSessions, getDriver, getResult, listSessions, eventList, getSessionResults
 
 
 app = Flask(__name__)
@@ -54,3 +54,27 @@ def confirmed():
 def sessions():
     session_id = request.args.get("event")
     return getSessions(session_id)
+@app.route("/driver")
+def driver():
+    return render_template("driver.html")
+
+@app.route("/getdriver")
+def fetchDriver():
+    return getDriver()
+
+@app.route("/getresult")
+def fetchResult():
+    return getResult(request.args.get("driver_id"))
+
+@app.route("/events")
+def events():
+    year = request.args.get("year")
+    return render_template("events.html", events=eventList(year))
+
+@app.route("/events/<id>")
+def Event(id):
+    return render_template("sessions.html", sessions=listSessions(id), event_id=id)
+
+@app.route("/events/<event_id>/<session_id>")
+def sessionResults(session_id, event_id):
+    return getSessionResults(int(session_id))

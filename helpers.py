@@ -69,11 +69,8 @@ def connectDriver(team_id, driver_id):
         cur.execute("UPDATE teams SET driver_1 = ? WHERE id = ?", (driver_id, team_id))
     elif result[5] == 0:
         cur.execute("UPDATE teams SET driver_2 = ? WHERE id = ?", (driver_id, team_id))
-    else:
-        print("do nothing for now")
     connection.commit()
     connection.close()
-    print(team_id, driver_id, result[4], result[5])
     return None
 
 def getEvents():
@@ -94,14 +91,12 @@ def createEvent(form):
         connection.commit()
         connection.close()
     except Exception as error:
-        print("create event", error)
         return
     for key in form:
         try:
             if form[key].split("T")[1] != None:
                 createSession(key, form[key], id)
         except Exception as error:
-            print("create session",error)
             pass
 
 def createSession(type, datetime, eventid):
@@ -182,3 +177,42 @@ def getSessions(event_id):
     except:
         return None
     return sessions
+
+def getDriver():
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    results = cur.execute("""SELECT * FROM drivers WHERE id IN (
+                   SELECT driver_id FROM results WHERE session_id IN (
+                   SELECT id FROM sessions WHERE event_id IN (
+                   SELECT id FROM events WHERE year = 2024)))""").fetchall()
+    return results
+
+def getResult(driver_id):
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    results = cur.execute("SELECT * FROM results WHERE driver_id = ?", [driver_id]).fetchall()
+    # results = cur.execute("""SELECT * FROM results WHERE driver_id = ? AND IN (
+    #            SELECT id FROM sessions WHERE event_id IN (
+    #            SELECT id FROM events WHERE year = 2024))""", [driver_id]).fetchall()
+    return results
+
+def listSessions(event_id):
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    result = cur.execute("SELECT * FROM sessions WHERE event_id = ?", [event_id]).fetchall()
+    return [result]
+
+def eventList(year):
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    if year == "" or year == None:
+        result = cur.execute("SELECT * FROM events").fetchall()
+    else:
+        result = cur.execute("SELECT * FROM events WHERE year = ?", [year]).fetchall()
+    return [result]
+
+def getSessionResults(session_id):
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    results = cur.execute("SELECT * FROM results WHERE session_id = ?", [session_id]).fetchall()
+    return results
