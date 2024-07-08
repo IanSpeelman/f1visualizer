@@ -1,0 +1,3 @@
+{% extends "layout.html" %} {% block body %} {% for session in sessions[0]:%}
+<a href="/events/{{event_id}}/{{session[0]}}">{{session[2]}}</a><br />
+{% endfor %} {% endblock %}
