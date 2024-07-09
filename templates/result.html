@@ -1,0 +1,105 @@
+{% extends "layout.html" %} {% block title%} Results | F1Visualizer {% endblock
+%} {% block body %}
+<main>
+	<aside>
+		<select
+			name="year"
+			id="year">
+			<option value="2024">2024</option>
+			<option value="2023">2023</option>
+			<option value="2022">2022</option>
+			<option value="2021">2021</option>
+		</select>
+		<ul id="events">
+			<div>
+				<li> bahrein</li>
+				<ul class="hidden">
+					<li>practice 1</li>
+					<li>practice 2</li>
+					<li>practice 3</li>
+					<li>quali</li>
+					<li>race</li>
+				</ul>
+			</div>
+			<div>
+				<li> australie</li>
+				<ul class="hidden">
+					<li>practice 1</li>
+					<li>practice 2</li>
+					<li>practice 3</li>
+					<li>quali</li>
+					<li>race</li>
+				</ul>
+			</div>
+			<div>
+				<li> saudi arabie</li>
+				<ul class="hidden">
+					<li>practice 1</li>
+					<li>practice 2</li>
+					<li>practice 3</li>
+					<li>quali</li>
+					<li>race</li>
+				</ul>
+			</div>
+			<div>
+				<li> monaco</li>
+				<ul class="hidden">
+					<li>practice 1</li>
+					<li>practice 2</li>
+					<li>practice 3</li>
+					<li>quali</li>
+					<li>race</li>
+				</ul>
+			</div>
+			<div>
+				<li> netherlands</li>
+				<ul class="hidden">
+					<li>practice 1</li>
+					<li>practice 2</li>
+					<li>practice 3</li>
+					<li>quali</li>
+					<li>race</li>
+				</ul>
+			</div>
+		</ul>
+	</aside>
+	<div id="results">
+		<div class="nothing-selected hidden">
+			<h2>No results selected</h2>
+		</div>
+		<table class="">
+			<tr>
+				<th>Position</th>
+				<th>#</th>
+				<th>Driver</th>
+				<th>Team</th>
+				<th>Completed laps</th>
+				<th>Top Speed</th>
+				<th>Gap</th>
+				<th>Interval</th>
+				<th>points</th>
+				<th>Total race time</th>
+			</tr>
+			{% for result in results: %}
+			<tr>
+				<td>{{result[4] if result[10] != "DNF" else result[10]}}</td>
+				<td>{{result[16]}}</td>
+				<td
+					><a href="/driver/{{result[14]}}"
+						>{{result[17] + " " + result[18]}}</a
+					></td
+				>
+				<td><a href="/team/{{result[23]}}">{{result[24]}}</a></td>
+				<td>{{result[5]}}</td>
+				<td>{{result[8]}}KM/H</td>
+				<td>{{result[10]}}</td>
+				<td>{{result[11]}}</td>
+				<td>{{result[7]}}</td>
+				<td>{{result[12]}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	</div>
+</main>
+<script src="/static/js/toggleSessions.js"></script>
+{% endblock %}

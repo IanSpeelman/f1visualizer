@@ -1,8 +1,11 @@
-{% extends "layout.html" %}
-{% block body %}
-
-    {% for event in events[0]:%}
-        <a href="/events/{{event[0]}}">{{event[1]}}</a><br>
-    {% endfor %}
+{% extends "layout.html" %} {% block title%} Events | F1Visualizer {% endblock
+%} {% block body %}
+<table>
+	{% for event in events[0]:%}
+	<tr>
+		<td><a href="/events/{{event[0]}}">{{event[1]}}</a></td>
+	</tr>
+	{% endfor %}
+</table>
 
 {% endblock %}

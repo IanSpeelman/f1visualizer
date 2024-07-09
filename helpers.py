@@ -178,7 +178,7 @@ def getSessions(event_id):
         return None
     return sessions
 
-def getDriver():
+def getDrivers():
     connection = sqlite3.connect(db_path)
     cur = connection.cursor()
     results = cur.execute("""SELECT * FROM drivers WHERE id IN (
@@ -214,5 +214,5 @@ def eventList(year):
 def getSessionResults(session_id):
     connection = sqlite3.connect(db_path)
     cur = connection.cursor()
-    results = cur.execute("SELECT * FROM results WHERE session_id = ?", [session_id]).fetchall()
+    results = cur.execute("SELECT * FROM results INNER JOIN drivers ON results.driver_id=drivers.id INNER JOIN teams ON teams.id = drivers.team_id WHERE results.session_id = ?", [session_id]).fetchall()
     return results
