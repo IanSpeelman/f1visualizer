@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults, getSessions, getDriver, getResult, listSessions, eventList, getSessionResults
+from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults, getSessions, getDrivers, getResult, listSessions, eventList, getSessionResults
 
 
 app = Flask(__name__)
@@ -54,13 +54,10 @@ def confirmed():
 def sessions():
     session_id = request.args.get("event")
     return getSessions(session_id)
-@app.route("/driver")
-def driver():
-    return render_template("driver.html")
 
 @app.route("/getdriver")
 def fetchDriver():
-    return getDriver()
+    return getDrivers()
 
 @app.route("/getresult")
 def fetchResult():
@@ -77,4 +74,14 @@ def Event(id):
 
 @app.route("/events/<event_id>/<session_id>")
 def sessionResults(session_id, event_id):
-    return getSessionResults(int(session_id))
+    return render_template("result.html", results=getSessionResults(session_id))
+
+@app.route("/driver/<id>")
+def driver(id):
+    return render_template("driver.html", id=id)
+
+
+
+@app.route("/DRIVERCOMPARE")
+def drivercompare():
+    return render_template("DRIVERCOMPARE.html")

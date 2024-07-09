@@ -1,0 +1,119 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Roboto", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	--border: #00000050;
+	--fade-background: #00000035;
+	--dark-text-color: #242323;
+	--border-radius: 0.3em;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
+}
+.container {
+	display: flex;
+	justify-content: center;
+	flex-grow: 1;
+}
+table {
+	display: block;
+	border-collapse: collapse;
+}
+td {
+	padding: 0.3em;
+}
+main {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100vw;
+}
+aside {
+	padding: 1em;
+	padding-top: 3em;
+	/* background-color: grey; */
+	color: var(--dark-text-color);
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	border-right: 1px solid var(--border);
+}
+aside > ul {
+	margin-top: 1em;
+}
+aside ul {
+	list-style-type: none;
+}
+ul li {
+	border: 1px solid var(--border);
+	padding: 0.5em 1em;
+	margin-bottom: 0.1em;
+	border-radius: var(--border-radius);
+}
+ul ul li {
+	background-color: var(--fade-background);
+}
+#results {
+	margin-top: 3em;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	flex-grow: 5;
+}
+.hidden {
+	display: none;
+}
+td {
+	margin: 0;
+	border: 1px solid var(--border);
+}
+header {
+	padding: 1em 2em;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-bottom: 1px solid var(--border);
+	align-items: center;
+}
+nav ul {
+	display: flex;
+	flex-direction: row;
+	list-style: none;
+}
+nav ul li {
+	margin: 0 1em;
+	padding: 0;
+	border-radius: var(--border-radius);
+	border: none;
+	background-color: var(--fade-background);
+	color: var(--dark-text-color);
+}
+nav ul li a {
+	display: block;
+	padding: 1em 2em;
+}
+a {
+	color: inherit;
+}
+nav ul li:hover {
+	background-color: var(--border);
+}
+.nothing-selected {
+	align-self: center;
+	justify-self: center;
+	margin-bottom: 10em;
+}
+.results {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
