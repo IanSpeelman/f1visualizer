@@ -1,3 +1,18 @@
-{% extends "layout.html" %} {% block title%} Driver | F1Visualizer {% endblock %}  {% block body %}
-<h1>driver #{{id}}</h1>
+{% extends "layout.html" %} {% block body %}
+<h1>chart should go here</h1>
+<form action="">
+	<select name="driver" id="driver">
+	</select>
+</form>
+<div>
+	<canvas id="chartContainer"></canvas>
+</div>
+<div>
+	<canvas id="myChart"></canvas>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/static/js/driver.js"></script>
+  
+</script>
 {% endblock %}

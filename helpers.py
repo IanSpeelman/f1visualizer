@@ -190,7 +190,7 @@ def getDrivers():
 def getResult(driver_id):
     connection = sqlite3.connect(db_path)
     cur = connection.cursor()
-    results = cur.execute("SELECT * FROM results WHERE driver_id = ?", [driver_id]).fetchall()
+    results = cur.execute("SELECT * FROM results INNER JOIN drivers ON results.driver_id = drivers.id INNER JOIN sessions on results.session_id = sessions.id WHERE driver_id = ? ORDER BY date ASC", [driver_id]).fetchall()
     # results = cur.execute("""SELECT * FROM results WHERE driver_id = ? AND IN (
     #            SELECT id FROM sessions WHERE event_id IN (
     #            SELECT id FROM events WHERE year = 2024))""", [driver_id]).fetchall()
@@ -216,3 +216,9 @@ def getSessionResults(session_id):
     cur = connection.cursor()
     results = cur.execute("SELECT * FROM results INNER JOIN drivers ON results.driver_id=drivers.id INNER JOIN teams ON teams.id = drivers.team_id WHERE results.session_id = ?", [session_id]).fetchall()
     return results
+
+def getDriver(driver_id):
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    driver = cur.execute("SELECT * FROM drivers WHERE id = ?", [driver_id]).fetchone()
+    return driver

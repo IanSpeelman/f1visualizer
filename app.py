@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults, getSessions, getDrivers, getResult, listSessions, eventList, getSessionResults
+from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults, getSessions, getDrivers, getResult, listSessions, eventList, getSessionResults, getDriver
 
 
 app = Flask(__name__)
@@ -78,10 +78,10 @@ def sessionResults(session_id, event_id):
 
 @app.route("/driver/<id>")
 def driver(id):
-    return render_template("driver.html", id=id)
+    return render_template("driver.html", driver=getDriver(id))
 
 
 
-@app.route("/DRIVERCOMPARE")
+@app.route("/driver")
 def drivercompare():
     return render_template("DRIVERCOMPARE.html")

@@ -1,64 +1,75 @@
-const driver = document.getElementById("driver");
+const driver = document.getElementById("driver-list");
 let chart;
 const getDrivers = async () => {
 	const result = await fetch("/getdriver");
 	const data = await result.json();
-	let option = document.createElement("option");
-	option.innerText = " -- Select Driver -- ";
-	option.setAttribute("selected", "");
-	option.setAttribute("disabled", "");
-	driver.append(option);
 	for (let i = 0; i < data.length; i++) {
-		let option = document.createElement("option");
-		option.innerText = data[i][2] + " " + data[i][3] + " " + data[i][4];
-		option.setAttribute("value", data[i][0]);
-		driver.append(option);
+		let div = document.createElement("div");
+		div.classList.add("inline");
+		let checkbox = document.createElement("input");
+		checkbox.setAttribute("type", "checkbox");
+		checkbox.setAttribute("value", data[i][0]);
+		checkbox.setAttribute("id", data[i][0]);
+		let label = document.createElement("label");
+		label.innerText = data[i][2] + " " + data[i][3] + " " + data[i][4];
+		label.setAttribute("value", data[i][0]);
+		label.setAttribute("for", data[i][0]);
+		div.append(checkbox);
+		div.append(label);
+		driver.append(div);
+		driver.addEventListener("click", (e) => {});
 	}
 };
 getDrivers();
-
-driver.addEventListener("change", () => {
-	fetchResults(driver.value);
+let compareList = [];
+driver.addEventListener("click", (e) => {
+	if (e.target.tagName !== "LABEL") {
+		if (compareList.indexOf(e.target.value) == -1) {
+			compareList.push(e.target.value);
+		} else {
+			compareList.splice(compareList.indexOf(e.target.value), 1);
+		}
+	}
+	fetchResults(compareList);
 });
-
-const fetchResults = async (driver_id) => {
-	response = await fetch(`/getresult?driver_id=${driver_id}`);
-	result = await response.json();
-	drawChart(result);
-};
 
 counter = 0;
 const drawChart = (input) => {
-	values = [];
-	let data = {
-		labels: [1, 2, 3, 4],
-		datasets: [
-			{
-				label: "Driver 1",
-				data: [],
-				borderWidth: 2,
-			},
-		],
-	};
-	for (let i = 0; i < input.length; i++) {
-		if (i > 0) {
-			values[i] = (input[i][7] !== "" ? input[i][7] : 0) + values[i - 1];
-		} else {
-			values[i] = input[i][7];
+	let data = [];
+	let labels = [1];
+	for (let driver of input) {
+		let pointsArray = [];
+		for (let i = 1; i < driver.length; i++) {
+			if (i > 1) {
+				if (labels.length < driver.length - 1) {
+					labels.push(i);
+				}
+				pointsArray.push(driver[i] + pointsArray[i - 2]);
+			} else {
+				pointsArray.push(driver[i]);
+			}
 		}
-		console.log("changed");
+		let item = {
+			label: driver[0],
+			data: pointsArray,
+			borderWidth: 2,
+		};
+		data.push(item);
 	}
-	console.log(input);
-	console.log(values);
-	data.datasets[0].data = values;
+	// data.datasets[0].data = [];
 	if (counter > 0) {
 		chart.destroy();
 	}
 	counter++;
+
 	const ctx = document.getElementById("myChart");
+
 	chart = new Chart(ctx, {
 		type: "line",
-		data: data,
+		data: {
+			labels: labels,
+			datasets: data,
+		},
 		options: {
 			scales: {
 				y: {
@@ -67,4 +78,18 @@ const drawChart = (input) => {
 			},
 		},
 	});
+	labels = [1];
+};
+const fetchResults = async (driverArray) => {
+	let data = [];
+	for (let driver_id of driverArray) {
+		response = await fetch(`/getresult?driver_id=${driver_id}`);
+		result = await response.json();
+		let driver = [`${result[0][17]} ${result[0][18]}`];
+		for (let res of result) {
+			driver.push(res[7] == "" ? 0 : res[7]);
+		}
+		data.push(driver);
+	}
+	drawChart(data);
 };
