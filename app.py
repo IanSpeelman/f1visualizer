@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect
-from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults, getSessions, getDrivers, getResult, listSessions, eventList, getSessionResults, getDriver
+from helpers import getData, checkDriver, getEvents, createEvent, getTracks, uploadResults, getDrivers, getResult, getSessionResults, getSessions2, getEventsUpload
 
 
 app = Flask(__name__)
@@ -9,7 +9,7 @@ def index():
     events = getEvents()
     return render_template("index.html", events=events)
 
-@app.route("/createevent", methods=["GET", "POST"])
+@app.route("/createevent", methods=["GET", "POST"]) 
 def makeevent():
     if request.method == "POST":
         createEvent(request.form)
@@ -18,7 +18,7 @@ def makeevent():
         tracks = getTracks()
         return render_template("createevent.html", tracks=tracks)
 
-@app.route("/upload", methods=["GET", "POST"])
+@app.route("/upload", methods=["GET", "POST"]) 
 def upload():
     if request.method == "POST":
         results = getData(request.files["results"],"1,2")
@@ -39,49 +39,48 @@ def upload():
                 checkDriver(data["drivers"][i])
         event = {}
         event["event"] = request.form.get("event")
+        print(event)
         event["session"] = request.form.get("session")
         return render_template("confirm.html", results=data["results"], event=event)
     else:
-        events = getEvents()
+        events = getEventsUpload()
         return render_template("uploadresults.html", events=events)
 
-@app.route("/confirmed", methods=["POST"])
+@app.route("/confirmed", methods=["POST"]) 
 def confirmed():
     uploadResults(request.form)
     return redirect("/upload")
 
-@app.route("/sessions")
+@app.route("/getEvents") 
 def sessions():
     session_id = request.args.get("event")
-    return getSessions(session_id)
+    return getEvents()
 
-@app.route("/getdriver")
+@app.route("/getdriver") 
 def fetchDriver():
     return getDrivers()
 
-@app.route("/getresult")
+@app.route("/getresult") 
 def fetchResult():
     return getResult(request.args.get("driver_id"))
 
-@app.route("/events")
-def events():
-    year = request.args.get("year")
-    return render_template("events.html", events=eventList(year))
+@app.route("/getsessionresults") 
+def getsessionsresults():
+    return getSessionResults(request.args.get("session_id"))
 
-@app.route("/events/<id>")
-def Event(id):
-    return render_template("sessions.html", sessions=listSessions(id), event_id=id)
 
-@app.route("/events/<event_id>/<session_id>")
-def sessionResults(session_id, event_id):
-    return render_template("result.html", results=getSessionResults(session_id))
+@app.route("/events") 
+def sessionResults():
+    return render_template("result.html", events=getEvents())
 
-@app.route("/driver/<id>")
-def driver(id):
-    return render_template("driver.html", driver=getDriver(id))
+@app.route("/sessions") 
+def getsessions():
+    print(request.args.get("event"))
+    results = getSessions2(request.args.get("event"))
+    return results
 
 
 
-@app.route("/driver")
+@app.route("/driver") 
 def drivercompare():
     return render_template("DRIVERCOMPARE.html")

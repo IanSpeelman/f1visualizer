@@ -15,21 +15,15 @@
 	<select name="session" id="session" autocomplete="off">
 		<option disabled selected> -- Select Event First -- </option>
 	</select></div>
-		<label for="results">Upload results document</label>
-		<input
-			type="file"
-			placeholder="results"
-			name="results"
-			id="results"
-	/></div>
-	<div
-		><label for="drivers">Upload entry list</label>
-		<input
-			type="file"
-			name="drivers"
-			id="drivers"
-	/></div>
-	<button type="submit">upload</button>
+	<div class="file"><label for="results">Upload results document</label>
+		<input type="file" placeholder="results" name="results" id="results"/>
+	</div>
+	<div class="file"><label for="drivers">Upload entry list</label>
+		<input type="file" placeholder="drivers" name="drivers" id="drivers"/>
+	</div>
+	<div class="btndiv">
+		<button type="submit">upload</button>
+	</div>
 </form>
 <script src="static/js/getSessions.js"></script>
 {% endblock %}

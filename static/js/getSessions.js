@@ -18,13 +18,13 @@ const makeOptions = (sessions) => {
 		session.removeChild(session.lastChild);
 	}
 	const option = document.createElement("option");
-	option.innerText = " -- Select session -- "
+	option.innerText = " -- Select session -- ";
 	option.setAttribute("disabled", "");
 	option.setAttribute("selected", "");
 	session.append(option);
 	for (let i = 0; i < sessions.length; i++) {
 		const option = document.createElement("option");
-		option.innerText = sessions[i][1];
+		option.innerText = sessions[i][2];
 		option.value = sessions[i][0];
 		session.append(option);
 	}

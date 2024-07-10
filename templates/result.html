@@ -2,7 +2,7 @@
 %} {% block body %}
 <main>
 	<aside>
-		<select
+		<select class="hidden"
 			name="year"
 			id="year">
 			<option value="2024">2024</option>
@@ -11,63 +11,13 @@
 			<option value="2021">2021</option>
 		</select>
 		<ul id="events">
-			<div>
-				<li> bahrein</li>
-				<ul class="hidden">
-					<li>practice 1</li>
-					<li>practice 2</li>
-					<li>practice 3</li>
-					<li>quali</li>
-					<li>race</li>
-				</ul>
-			</div>
-			<div>
-				<li> australie</li>
-				<ul class="hidden">
-					<li>practice 1</li>
-					<li>practice 2</li>
-					<li>practice 3</li>
-					<li>quali</li>
-					<li>race</li>
-				</ul>
-			</div>
-			<div>
-				<li> saudi arabie</li>
-				<ul class="hidden">
-					<li>practice 1</li>
-					<li>practice 2</li>
-					<li>practice 3</li>
-					<li>quali</li>
-					<li>race</li>
-				</ul>
-			</div>
-			<div>
-				<li> monaco</li>
-				<ul class="hidden">
-					<li>practice 1</li>
-					<li>practice 2</li>
-					<li>practice 3</li>
-					<li>quali</li>
-					<li>race</li>
-				</ul>
-			</div>
-			<div>
-				<li> netherlands</li>
-				<ul class="hidden">
-					<li>practice 1</li>
-					<li>practice 2</li>
-					<li>practice 3</li>
-					<li>quali</li>
-					<li>race</li>
-				</ul>
-			</div>
 		</ul>
 	</aside>
 	<div id="results">
-		<div class="nothing-selected hidden">
+		<div class="nothing-selected">
 			<h2>No results selected</h2>
 		</div>
-		<table class="">
+		<table class="table-results hidden">
 			<tr>
 				<th>Position</th>
 				<th>#</th>
