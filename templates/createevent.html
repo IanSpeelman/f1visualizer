@@ -4,7 +4,7 @@
 
 <form action="/createevent" method="post">
     <div>
-        <div>
+        <div class="firstFormItem">
             <label for="name">name:<label>
             <input type="text" name="name" id="name" placeholder="Event name">
         </div>
@@ -22,32 +22,34 @@
             <input type="checkbox" name="sprint" id="sprint">
         </div>
     </div>
-    <p class="session_1">Practice 1</p>
     <div>
+        <p class="session_1">Practice 1</p>
         <label for="Practice_1">time/date: </label>
         <input class="session_1" type="datetime-local" id="Practice_1" name="Practice_1">
     </div>
-    <p class="session_2">Practice 2</p>
     <div>
+        <p class="session_2">Practice 2</p>
         <label for="Practice_2">time/date: </label>
         <input class="session_2" type="datetime-local" id="Practice_2" name="Practice_2">
     </div>
-    <p class="session_3">Practice 3</p>
     <div>
+        <p class="session_3">Practice 3</p>
         <label for="Practice_3">time/date: </label>
         <input class="session_3" type="datetime-local" id="Practice_3" name="Practice_3">
     </div>
-    <p class="session_4">quali</p>
     <div>
+        <p class="session_4">quali</p>
         <label for="Qualification">time/date: </label>
         <input class="session_4" type="datetime-local" id="Qualification" name="Qualification">
     </div>
-    <p class="session_5">Race</p>
     <div>
+        <p class="session_5">Race</p>
         <label for="Race">time/date: </label>
         <input class="session_5" type="datetime-local" id="Race" name="Race">
     </div>
-    <button type="submit">Add event</button>
+    <div class="btndiv">
+        <button type="submit">Add event</button>
+    </div>
 </form>
 <script src="static/js/changeWeekendStructure.js"></script>
 {% endblock%}

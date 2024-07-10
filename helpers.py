@@ -77,7 +77,13 @@ def getEvents():
     connection = sqlite3.connect(db_path)
     cur = connection.cursor()
     year = datetime.date.today().year
-    events = cur.execute("SELECT * FROM events WHERE year = ?", [year]).fetchall()
+    events = cur.execute("""SELECT * FROM events INNER JOIN sessions ON events.id = sessions.event_id WHERE year = ? AND sessions.id IN ( SELECT session_id FROM results) ORDER BY date ASC""", [year]).fetchall()
+    return events
+def getEventsUpload():
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    year = datetime.date.today().year
+    events = cur.execute("""SELECT * FROM events WHERE year = ?""", [year]).fetchall()
     return events
 
 def createEvent(form):
@@ -174,6 +180,15 @@ def getSessions(event_id):
     try:
         sessions = cur.execute("""SELECT id, type FROM sessions WHERE event_id = ? AND id NOT IN (
                                SELECT session_id FROM results)""", [event_id]).fetchall()
+    except:
+        return None
+    return sessions
+
+def getSessions2(event_id):
+    connection = sqlite3.connect(db_path)
+    cur = connection.cursor()
+    try:
+        sessions = cur.execute("SELECT * FROM sessions WHERE event_id = ? AND id NOT IN (SELECT session_id FROM results)", [event_id]).fetchall()
     except:
         return None
     return sessions

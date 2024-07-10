@@ -127,3 +127,45 @@ nav ul li:hover {
 .inline label {
 	margin: 0em 0.5em;
 }
+
+form {
+	min-height: 50vh;
+	display: flex;
+	flex-wrap: wrap;
+	width: 50vw;
+	flex-direction: row;
+	justify-content: space-around;
+	align-content: center;
+}
+form > div {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	min-width: 20vw;
+	height: 5em;
+	max-width: 25vw;
+}
+.btndiv {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+button {
+	padding: 1em 2em;
+}
+select {
+	min-width: 15em;
+}
+.firstFormItem {
+	min-width: 40vw;
+}
+.file > #results {
+	height: 2em;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	flex-grow: 0;
+}
+form .confirm {
+	width: 100vw;
+}

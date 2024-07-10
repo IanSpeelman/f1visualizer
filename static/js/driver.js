@@ -1,4 +1,6 @@
 const driver = document.getElementById("driver-list");
+const placeholder = document.querySelector(".nothing-selected");
+const hidden = document.querySelector(".chart");
 let chart;
 const getDrivers = async () => {
 	const result = await fetch("/getdriver");
@@ -31,6 +33,14 @@ driver.addEventListener("click", (e) => {
 		}
 	}
 	fetchResults(compareList);
+	if(compareList.length === 0){
+		hidden.classList.add("hidden");
+		placeholder.classList.remove("hidden");
+	}
+	else{
+		hidden.classList.remove("hidden");
+		placeholder.classList.add("hidden");
+	}
 });
 
 counter = 0;
@@ -79,6 +89,7 @@ const drawChart = (input) => {
 		},
 	});
 	labels = [1];
+	
 };
 const fetchResults = async (driverArray) => {
 	let data = [];
